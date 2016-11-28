@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>射击游戏</title>
+		<style type="text/css">
+			*{padding: 0;margin: 0;}
+			body{position: relative;}
+			#myCanvas{background: black;position: absolute;left: 300px;}
+		</style>
+	</head>
+	<body>
+		<canvas id="produce" width="300" height="500">您的浏览器不支持canvas，请下载最新版本的浏览器！</canvas>
+		<canvas id="myCanvas" width="500" height="500">您的浏览器不支持canvas，请下载最新版本的浏览器！</canvas>
+	</body>
+	<script type="text/javascript" src="js/game.js" ></script>
+	<script type="text/javascript">
+		var produce=document.getElementById("produce");
+		var txl=produce.getContext("2d");
+		
+		txl.beginPath();
+		var title="射击小方块";
+		txl.font="30px 微软雅黑";
+		txl.fillText(title,80,50);
+		
+		txl.beginPath();
+		var score="score:";
+		txl.font="20px 微软雅黑";
+		txl.fillText(score,10,100);
+		
+		txl.beginPath();
+		var blood="blood:";
+		txl.font="20px 微软雅黑";
+		txl.fillText(blood,10,150);
+		
+		function Score(){
+			this.con=0;
+		}
+		Score.prototype.draw=function(){
+			txl.beginPath();
+			var scoreName=this.con;
+			txl.font="20px 微软雅黑";
+			txl.fillText(scoreName,100,100);
+		};
+		
+		function Blood(){
+			this.con=3;
+		}
+		Blood.prototype.draw=function(){
+			txl.beginPath();
+			var bloodName=this.con;
+			txl.font="20px 微软雅黑";
+			txl.fillText(bloodName,100,150);
+		};
+		
+		var score1=new Score();
+		var blood1=new Blood();
+		
+		function countAnimation(){
+			txl.clearRect(80,80,200,100);
+			score1.con=num;
+			score1.draw();
+			blood1.con=bloodNum;
+			blood1.draw();
+			if(bloodNum==0){
+				clearInterval(timeBullet);
+				clearInterval(timeCreateEnemy);
+				clearInterval(timeEnemy);
+				txl.beginPath();
+				txl.fillStyle="red";
+				var over="GAME OVER!"
+				txl.font="50px 微软雅黑";
+				txl.fillText(over,0,250);
+				return;
+			}
+			requestAnimationFrame(countAnimation);
+		}
+		countAnimation();
+	</script>
+</html>
